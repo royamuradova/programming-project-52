@@ -4,54 +4,37 @@
 using namespace std;
 
 int main() {
-    // File name
-    const string fileName = "LineUp.txt";
+    string townName, fileName;
 
-    // Declare variables
-    string name;
-    string firstStudent, lastStudent;
-    int studentCount = 0;
+    // Ask for town name and file name
+    cout << "Enter the name of the town: ";
+    getline(cin, townName);
+    cout << "Enter the name of the data file: ";
+    cin >> fileName;
 
     // Open the file
     ifstream inputFile(fileName);
-
-    // Check if the file opened successfully
     if (!inputFile) {
-        cout << "Error: Unable to open file \"" << fileName << "\".\n";
-        return 1; // Exit the program
+        cerr << "Error: Could not open file " << fileName << endl;
+        return 1;
     }
 
-    // Read names from the file
-    while (inputFile >> name) {
-        studentCount++;
+    // Display the header
+    cout << "\n" << townName << " Population Growth" << endl;
+    cout << "(each * represents 1,000 people)\n\n";
 
-        // If this is the first name, initialize first and last students
-        if (studentCount == 1) {
-            firstStudent = name;
-            lastStudent = name;
-        } else {
-            // Update the first student if the current name is alphabetically earlier
-            if (name < firstStudent) {
-                firstStudent = name;
-            }
-            // Update the last student if the current name is alphabetically later
-            if (name > lastStudent) {
-                lastStudent = name;
-            }
+    // Read data from file and display the bar chart
+    int year, population;
+    while (inputFile >> year >> population) {
+        cout << year << " ";
+        for (int i = 0; i < population / 1000; ++i) {
+            cout << "*";
         }
+        cout << endl;
     }
 
     // Close the file
     inputFile.close();
-
-    // Output results
-    if (studentCount > 0) {
-        cout << "Number of students: " << studentCount << endl;
-        cout << "First student in line: " << firstStudent << endl;
-        cout << "Last student in line: " << lastStudent << endl;
-    } else {
-        cout << "No names were found in the file.\n";
-    }
 
     return 0;
 }
