@@ -1,27 +1,35 @@
 #include <iostream>
+#include <cstdlib> // For rand() and srand()
+#include <ctime>   // For time()
 using namespace std;
 
 int main() {
-    // Pattern A
-    cout << "Pattern A\n";
-    for (int i = 1; i <= 10; ++i) {
-        for (int j = 1; j <= i; ++j) {
-            cout << "+";
-        }
-        cout << endl;
-    }
+    // Seed the random number generator
+    srand(static_cast<unsigned int>(time(0)));
 
-    // Spacer between patterns
-    cout << endl;
+    // Generate a random number between 1 and 100
+    int randomNumber = rand() % 100 + 1;
+    int userGuess;
+    int guessCount = 0;
 
-    // Pattern B
-    cout << "Pattern B\n";
-    for (int i = 10; i >= 1; --i) {
-        for (int j = 1; j <= i; ++j) {
-            cout << "+";
+    cout << "Welcome to the Random Number Guessing Game!" << endl;
+    cout << "I have picked a number between 1 and 100. Try to guess it!" << endl;
+
+    // Game loop
+    do {
+        cout << "Enter your guess: ";
+        cin >> userGuess;
+        guessCount++;
+
+        if (userGuess > randomNumber) {
+            cout << "Too high, try again." << endl;
+        } else if (userGuess < randomNumber) {
+            cout << "Too low, try again." << endl;
+        } else {
+            cout << "Congratulations! You guessed the correct number!" << endl;
+            cout << "It took you " << guessCount << " guesses." << endl;
         }
-        cout << endl;
-    }
+    } while (userGuess != randomNumber);
 
     return 0;
 }
